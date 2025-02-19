@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function top()
+    public function index()
     {
         echo $this->getCognitoPayload();
-        return view('top');  // resources/views/top.blade.php
+        return view('home');  // resources/views/top.blade.php
     }
 }

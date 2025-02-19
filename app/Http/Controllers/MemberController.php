@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    public function top()
+    public function index()
     {
         echo $this->getCognitoPayload();
         return view('member');  // resources/views/member/top.blade.php
