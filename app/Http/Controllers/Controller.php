@@ -30,7 +30,7 @@ abstract class Controller
         // Decode the JWT header (first part of the JWT)
         $jwt_headers = explode('.', $encoded_jwt);
         var_dump($jwt_headers);
-        $jwt_head = base64_decode($encoded_jwt.split('.')[0]);
+        $jwt_head = base64_decode($jwt_headers[0]);
         $decoded_json = json_decode($jwt_head);
         $kid = $decoded_json->kid;
         echo $kid;
