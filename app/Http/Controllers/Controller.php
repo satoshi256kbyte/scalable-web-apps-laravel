@@ -29,9 +29,7 @@ abstract class Controller
 
         // Decode the JWT header (first part of the JWT)
         $jwt_headers = explode('.', $encoded_jwt);
-        if (count($jwt_headers) != 3) {
-            throw new Exception('JWTフォーマット取得 失敗');
-        }
+        var_dump($jwt_headers);
         list($jwt_headb64, $jwt_bodyb64, $jwt_cryptob64) = $jwt_headers;
 
         $jwt_headb = base64_decode($jwt_headb64);
