@@ -9,3 +9,7 @@ touch database/database.sqlite
 chmod 664 database/database.sqlite
 chown apache:apache database/database.sqlite
 php artisan migrate
+php artisan route:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan route:list
