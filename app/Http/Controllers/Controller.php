@@ -32,7 +32,7 @@ abstract class Controller
         var_dump($jwt_headers);
         $jwt_head = base64_decode($jwt_headers[0]);
         $decoded_json = json_decode($jwt_head);
-        ver_dump($decoded_json);
+        var_dump($decoded_json);
         // $kid = $decoded_json->kid;
         // echo $kid;
 
