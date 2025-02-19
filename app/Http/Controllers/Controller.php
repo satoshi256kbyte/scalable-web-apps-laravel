@@ -20,8 +20,6 @@ abstract class Controller
         // Step 1: Validate the signer
         // $expected_alb_arn = 'arn:aws:elasticloadbalancing:region-code:account-id:loadbalancer/app/load-balancer-name/load-balancer-id';
 
-        var_dump($request->headers->all());
-
         // Assuming the JWT is in the 'x-amzn-oidc-data' header (you will need to extract it from the request headers)
         $encoded_jwt = $request->header('x-amzn-oidc-data');
         echo $encoded_jwt;
@@ -30,24 +28,14 @@ abstract class Controller
         }
 
         // Decode the JWT header (first part of the JWT)
-        $jwt_parts = explode('.', $encoded_jwt);
-        $jwt_headers = base64_decode($jwt_parts[0]);
-        $decoded_jwt_headers = json_decode($jwt_headers, true);
-
-        var_dump($jwt_parts);
-        var_dump($jwt_headers);
-        var_dump($jwt_headers);
-
-        // $received_alb_arn = $decoded_jwt_headers['signer'];
-
-        // if ($expected_alb_arn !== $received_alb_arn) {
-        //     throw new Exception("Invalid Signer");
-        // }
-
+        $jwt_headers = $encoded_jwt.split('.')[0]
+        $decoded_jwt_headers = base64.b64decode($jwt_headers)
+        $decoded_jwt_headers = $decoded_jwt_headers.decode("utf-8")
         var_dump($decoded_jwt_headers);
-
-        // $kid = $decoded_jwt_headers['kid'];
-
+        $decoded_json = json.loads($decoded_jwt_headers)
+        var_dump($decoded_json);
+        $kid = decoded_json['kid']
+        var_dump($kid);
         // $region = 'ap-northeast-1'; // AWS リージョン
         // $url = "https://public-keys.auth.elb.$region.amazonaws.com/$kid";
 
