@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function top()
     {
+        echo $this->getCognitoPayload();
         return view('top');  // resources/views/top.blade.php
     }
 }
