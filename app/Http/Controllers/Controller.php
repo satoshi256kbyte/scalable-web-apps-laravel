@@ -13,7 +13,7 @@ abstract class Controller
      * リクエストヘッダーからJWTを取得するメソッド
      * @see https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/listener-authenticate-users.html
      * */
-    protected function getCognitoPayload()
+    protected function getCognitoPayload(Request $request)
     {
 
         // Step 1: Validate the signer

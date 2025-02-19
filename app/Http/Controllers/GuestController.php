@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class GuestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        echo $this->getCognitoPayload();
+        echo $this->getCognitoPayload($request);
         return view('guest');  // resources/views/guest/top.blade.php
     }
 }
