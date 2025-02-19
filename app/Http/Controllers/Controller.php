@@ -19,12 +19,12 @@ abstract class Controller
         // Step 1: Validate the signer
         // $expected_alb_arn = 'arn:aws:elasticloadbalancing:region-code:account-id:loadbalancer/app/load-balancer-name/load-balancer-id';
 
+        // $_SERVERの中身を確認する
+        var_dump($_SERVER);
+
         // Assuming the JWT is in the 'x-amzn-oidc-data' header (you will need to extract it from the request headers)
-        debug($_SERVER);
         $encoded_jwt = $_SERVER['HTTP_X_AMZN_OIDC_DATA'] ?? null;
-        if (!$encoded_jwt) {
-            return 'No JWT found in the request';
-        }
+        echo encoded_jwt;
 
         // Decode the JWT header (first part of the JWT)
         $jwt_parts = explode('.', $encoded_jwt);
