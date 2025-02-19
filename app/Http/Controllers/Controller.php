@@ -24,7 +24,10 @@ abstract class Controller
 
         // Assuming the JWT is in the 'x-amzn-oidc-data' header (you will need to extract it from the request headers)
         $encoded_jwt = $_SERVER['HTTP_X_AMZN_OIDC_DATA'] ?? null;
-        echo encoded_jwt;
+        echo $encoded_jwt;
+        if ($encoded_jwt === null) {
+            throw new Exception("No JWT found in headers");
+        }
 
         // Decode the JWT header (first part of the JWT)
         $jwt_parts = explode('.', $encoded_jwt);
