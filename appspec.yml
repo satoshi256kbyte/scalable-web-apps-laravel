@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: /httpd_example.conf
+    destination: /etc/httpd/conf.d/
+  - source: /
+    destination: /var/www/html
+hooks:
+  BeforeInstall:
+    - location: deploys_scripts/before_install.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: deploys_scripts/after_install.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: deploys_scripts/application_start.sh
+      timeout: 300
+      runas: root
