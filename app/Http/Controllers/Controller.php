@@ -34,6 +34,10 @@ abstract class Controller
         $jwt_headers = base64_decode($jwt_parts[0]);
         $decoded_jwt_headers = json_decode($jwt_headers, true);
 
+        var_dump($jwt_parts);
+        var_dump($jwt_headers);
+        var_dump($jwt_headers);
+
         // $received_alb_arn = $decoded_jwt_headers['signer'];
 
         // if ($expected_alb_arn !== $received_alb_arn) {
