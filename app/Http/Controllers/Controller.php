@@ -28,14 +28,17 @@ abstract class Controller
         }
 
         // Decode the JWT header (first part of the JWT)
-        $jwt_headers = $encoded_jwt.split('.')[0]
-        $decoded_jwt_headers = base64.b64decode($jwt_headers)
-        $decoded_jwt_headers = $decoded_jwt_headers.decode("utf-8")
-        var_dump($decoded_jwt_headers);
-        $decoded_json = json.loads($decoded_jwt_headers)
-        var_dump($decoded_json);
-        $kid = decoded_json['kid']
-        var_dump($kid);
+        $jwt_headers = explode('.', $encoded_jwt);
+        if (count($jwt_headers) != 3) {
+            throw new Exception('JWTフォーマット取得 失敗');
+        }
+        list($jwt_headb64, $jwt_bodyb64, $jwt_cryptob64) = $jwt_headers;
+
+        $jwt_headb = base64_decode($jwt_headb64);
+        $decoded_json = json_decode($jwt_headb);
+        $kid = $decoded_json->kid;
+        echo $kid;
+
         // $region = 'ap-northeast-1'; // AWS リージョン
         // $url = "https://public-keys.auth.elb.$region.amazonaws.com/$kid";
 
