@@ -26,7 +26,7 @@ abstract class Controller
         $encoded_jwt = $request->header('x-amzn-oidc-data');
         echo $encoded_jwt;
         if ($encoded_jwt === null) {
-            throw new Exception("No JWT found in headers");
+            return 'No JWT found in headers';
         }
 
         // Decode the JWT header (first part of the JWT)
