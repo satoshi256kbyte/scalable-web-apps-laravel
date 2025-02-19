@@ -20,7 +20,10 @@ abstract class Controller
         // $expected_alb_arn = 'arn:aws:elasticloadbalancing:region-code:account-id:loadbalancer/app/load-balancer-name/load-balancer-id';
 
         // Assuming the JWT is in the 'x-amzn-oidc-data' header (you will need to extract it from the request headers)
-        $encoded_jwt = $_SERVER['HTTP_X_AMZN_OIDC_DATA'];  // HTTP headerから値を取得
+        $encoded_jwt = $_SERVER['HTTP_X_AMZN_OIDC_DATA'] ?? null;
+        if (!$encoded_jwt) {
+            return 'No JWT found in the request';
+        }
 
         // Decode the JWT header (first part of the JWT)
         $jwt_parts = explode('.', $encoded_jwt);
