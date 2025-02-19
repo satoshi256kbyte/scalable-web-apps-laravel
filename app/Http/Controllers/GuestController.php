@@ -9,6 +9,6 @@ class GuestController extends Controller
     public function top()
     {
         echo $this->getCognitoPayload();
-        return view('guest.top');  // resources/views/guest/top.blade.php
+        return view('guest');  // resources/views/guest/top.blade.php
     }
 }

@@ -9,7 +9,7 @@ use App\Http\Controllers\GuestController;
 Route::get('/', [HomeController::class, 'top'])->name('top');
 
 // 会員用TOPページ
-Route::get('/member', [MemberController::class, 'member_top'])->name('member.top');
+Route::get('/member', [MemberController::class, 'member'])->name('member');
 
 // ゲスト用TOPページ
-Route::get('/guest', [GuestController::class, 'guest_top'])->name('guest.top');
+Route::get('/guest', [GuestController::class, 'guest'])->name('guest');
