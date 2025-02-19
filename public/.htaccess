@@ -9,11 +9,6 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle ALB Cognito Authentication Headers
-    SetEnvIf X-Amzn-Oidc-Data "(.*)" HTTP_X_AMZN_OIDC_DATA=$1
-    SetEnvIf X-Amzn-Oidc-Identity "(.*)" HTTP_X_AMZN_OIDC_IDENTITY=$1
-    SetEnvIf X-Amzn-Oidc-AcessToken "(.*)" HTTP_X_AMZN_OIDC_ACCESSTOKEN=$1
-
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
