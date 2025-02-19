@@ -40,17 +40,19 @@ abstract class Controller
         //     throw new Exception("Invalid Signer");
         // }
 
-        $kid = $decoded_jwt_headers['kid'];
+        var_dump($decoded_jwt_headers);
 
-        $region = 'ap-northeast-1'; // AWS リージョン
-        $url = "https://public-keys.auth.elb.$region.amazonaws.com/$kid";
+        // $kid = $decoded_jwt_headers['kid'];
 
-        $client = new Client();
-        $response = $client->request('GET', $url);
-        $pub_key = $response->getBody()->getContents();
+        // $region = 'ap-northeast-1'; // AWS リージョン
+        // $url = "https://public-keys.auth.elb.$region.amazonaws.com/$kid";
 
-        $decoded_payload = JWT::decode($encoded_jwt, $pub_key, ['ES256']);
+        // $client = new Client();
+        // $response = $client->request('GET', $url);
+        // $pub_key = $response->getBody()->getContents();
 
-        return json_encode($decoded_payload, JSON_PRETTY_PRINT);
+        // $decoded_payload = JWT::decode($encoded_jwt, $pub_key, ['ES256']);
+
+        // return json_encode($decoded_payload, JSON_PRETTY_PRINT);
     }
 }
