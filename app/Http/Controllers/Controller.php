@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
