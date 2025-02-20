@@ -39,7 +39,7 @@ abstract class Controller
         $response = $client->request('GET', $url);
         $pub_key = $response->getBody()->getContents();
 
-        $decoded_payload = JWT::decode($encoded_jwt, $pub_key, ['ES256']);
+        $decoded_payload = JWT::decode($encoded_jwt, $pub_key);
 
         return json_encode($decoded_payload, JSON_PRETTY_PRINT);
     }
