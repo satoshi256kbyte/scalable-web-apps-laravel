@@ -16,31 +16,40 @@ abstract class Controller
      * */
     protected function getCognitoPayload(Request $request)
     {
-
-        // Step 1: Validate the signer
-        // $expected_alb_arn = 'arn:aws:elasticloadbalancing:region-code:account-id:loadbalancer/app/load-balancer-name/load-balancer-id';
-
-        // Assuming the JWT is in the 'x-amzn-oidc-data' header (you will need to extract it from the request headers)
+        // Step 1: ALB から送られる JWT を取得
         $encoded_jwt = $request->header('x-amzn-oidc-data');
-        if ($encoded_jwt === null) {
-            return 'No JWT found in headers';
+
+        if (!$encoded_jwt) {
+            return response()->json(['error' => 'No JWT found in headers'], 400);
         }
 
-        // Decode the JWT header (first part of the JWT)
+        // Step 2: JWT のヘッダー部分をデコードして "kid" を取得
         $jwt_headers = explode('.', $encoded_jwt);
-        $jwt_head = base64_decode($jwt_headers[0]);
-        $decoded_json = json_decode($jwt_head);
-        $kid = $decoded_json->kid;
+        $jwt_head = json_decode(base64_decode(strtr($jwt_headers[0], '-_', '+/')), true);
 
-        $region = 'ap-northeast-1'; // AWS リージョン
+        if (!isset($jwt_head['kid'])) {
+            return response()->json(['error' => '"kid" not found in JWT headers'], 400);
+        }
+
+        $kid = $jwt_head['kid'];
+        $region = 'ap-northeast-1'; // ALB のリージョン
+
+        // Step 3: ALB の公開鍵を取得
         $url = "https://public-keys.auth.elb.$region.amazonaws.com/$kid";
-
         $client = new Client();
-        $response = $client->request('GET', $url);
-        $pub_key = $response->getBody()->getContents();
+        try {
+            $response = $client->get($url);
+            $pub_key = $response->getBody()->getContents();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch public key', 'message' => $e->getMessage()], 500);
+        }
 
-        $decoded_payload = JWT::decode($encoded_jwt, $pub_key);
-
-        return json_encode($decoded_payload, JSON_PRETTY_PRINT);
+        // Step 4: JWT を検証
+        try {
+            $decoded_payload = JWT::decode($encoded_jwt, new Key($pub_key, 'ES256'));
+            return response()->json($decoded_payload, 200, [], JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'JWT verification failed', 'message' => $e->getMessage()], 400);
+        }
     }
 }
