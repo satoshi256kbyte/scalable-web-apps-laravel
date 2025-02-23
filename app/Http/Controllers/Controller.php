@@ -12,7 +12,9 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 abstract class Controller
 {
     /**
-     * リクエストヘッダーからJWTを取得するメソッド
+     * リクエストヘッダーからJWTを取得して解析するメソッド
+     * コントローラーの基底クラスに実装して、他のコントローラーで継承して利用する想定
+     * @param Request $request HTTPリクエスト
      * @see https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/listener-authenticate-users.html
      * */
     protected function getCognitoPayload(Request $request)
