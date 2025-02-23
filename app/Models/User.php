@@ -2,46 +2,47 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users'; // テーブル名
+
+    protected $primaryKey = 'id'; // 主キー
+    public $incrementing = false; // UUID は自動インクリメントしない
+    protected $keyType = 'string'; // 主キーを文字列として扱う
+
+    public $timestamps = true; // created_at, updated_at を自動管理
+
     protected $fillable = [
-        'name',
+        'cognito_sub',
         'email',
-        'password',
+        'username',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'status',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    protected $casts = [
+        'id' => 'string', // UUIDを文字列として扱う
+        'cognito_sub' => 'string', // UUIDを文字列として扱う
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected static function boot()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->id) {
+                $model->id = Str::uuid(); // UUID を自動生成
+            }
+        });
     }
 }
